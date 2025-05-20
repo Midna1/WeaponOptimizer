@@ -108,7 +108,7 @@ def get_color(cost):
     if cost <= 2000:
         return "green"
     elif cost <= 8000:
-        return "blue"
+        return "aqua"
     else:
         return "purple"
 
