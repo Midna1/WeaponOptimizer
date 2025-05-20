@@ -104,13 +104,26 @@ def find_best_combo(items, max_items, max_cost):
 
     return best
 
+def get_color(cost):
+    if cost <= 2000:
+        return "green"
+    elif cost <= 8000:
+        return "orange"
+    else:
+        return "purple"
+
 filtered = filter_items(character)
 best_combo, dps, stats = find_best_combo(filtered, max_items, max_cost)
 
 if best_combo:
     st.subheader("Best DPS Combo:")
     for item in best_combo:
-        st.write(f"- {item[0]} (Damage: {item[1]}%, Fire Rate: {item[2]}%, Cost: {item[3]})")
+        color = get_color(item[3])
+        st.markdown(
+            f"<span style='color:{color}; font-weight:bold'>- {item[0]}</span> "
+            f"(Damage: {item[1]}%, Fire Rate: {item[2]}%, Cost: {item[3]})",
+            unsafe_allow_html=True
+        )
 
     dmg_bonus, fire_bonus, dmg, fire_rate, cost, mult = stats
     st.markdown("---")
