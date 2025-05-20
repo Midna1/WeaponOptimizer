@@ -19,7 +19,7 @@ ITEMS = [
     ("Stockpile", 5, 0, 4000, 0, "all"),
     ("Technoleech", 5, 0, 4500, 0, "all"),
     ("Icy Coolant", 10, 0, 5000, 0, "all"),
-    ("Talon Modification Module", 15, 0, 5500, 0, "all"),
+    ("Talon Modification Module", 15, 0, 6000, 0, "all"),
     ("Code Breaker", 15, 0, 9000, 0, "all"),
     ("Salvaged Slugs", 0, 10, 9500, 0, "all"),
     ("Volskaya Ordnance", 0, 10, 9500, 0, "all"),
