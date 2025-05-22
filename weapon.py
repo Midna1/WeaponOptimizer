@@ -10,7 +10,6 @@ IGNORE_FIRE_RATE = False
 
 # Item format: (name, ap%, cdr%, cost, required, character)
 ITEMS = [
-    # DPS item pool
     ("Compensator", 5, 0, 1000, 0, "all"),
     ("Weapon Grease", 0, 5, 1000, 0, "all"),
     ("Aftermarket Firing Pin", 0, 10, 3750, 0, "all"),
@@ -57,7 +56,6 @@ ITEMS = [
 ]
 
 # Streamlit UI
-
 st.title("DPS Optimizer")
 
 base_damage = st.number_input("Base Damage", min_value=1.0, value=1.0, step=0.1)
@@ -72,11 +70,16 @@ ignore_multiplier = st.checkbox("Ignore Bonus Multiplier", value=IGNORE_MULTIPLI
 max_items = st.slider("Max Number of Items", 1, 6, 6)
 max_cost = st.number_input("Max Total Cost", min_value=0, max_value=200000, value=200000, step=1000)
 
+# Blacklist input
+item_names = [item[0] for item in ITEMS]
+blacklisted_items = st.multiselect("Blacklist Items (Exclude these from optimization):", options=item_names)
 
-def filter_items(character):
+
+def filter_items(character, blacklist):
     if character == "Generic":
-        return [item for item in ITEMS if item[5] == "all"]
-    return [item for item in ITEMS if item[5] == "all" or item[5] == character]
+        return [item for item in ITEMS if item[5] == "all" and item[0] not in blacklist]
+    return [item for item in ITEMS if (item[5] == "all" or item[5] == character) and item[0] not in blacklist]
+
 
 def calculate_dps(combo):
     total_damage_bonus = sum(item[1] for item in combo) / 100
@@ -91,6 +94,7 @@ def calculate_dps(combo):
 
     return total_dps, total_damage_bonus, total_fire_rate_bonus, final_damage, final_fire_rate, total_cost, total_multiplier_bonus
 
+
 def find_best_combo(items, max_items, max_cost):
     best = (None, 0, ())
 
@@ -104,6 +108,7 @@ def find_best_combo(items, max_items, max_cost):
 
     return best
 
+
 def get_color(cost):
     if cost <= 2000:
         return "green"
@@ -112,7 +117,8 @@ def get_color(cost):
     else:
         return "purple"
 
-filtered = filter_items(character)
+
+filtered = filter_items(character, blacklisted_items)
 best_combo, dps, stats = find_best_combo(filtered, max_items, max_cost)
 
 if best_combo:
