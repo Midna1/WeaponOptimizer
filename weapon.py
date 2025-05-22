@@ -65,14 +65,16 @@ characters = sorted(set(i[5] for i in ITEMS if i[5] != "all"))
 characters.insert(0, "Generic")
 character = st.selectbox("Select Character", characters)
 
+# Blacklist input
+item_names = [item[0] for item in ITEMS]
+blacklisted_items = st.multiselect("Blacklist Items (Exclude these from optimization):", options=item_names)
+
 ignore_fire_rate = st.checkbox("Ignore Fire Rate Bonus", value=IGNORE_FIRE_RATE)
 ignore_multiplier = st.checkbox("Ignore Bonus Multiplier", value=IGNORE_MULTIPLIERS)
 max_items = st.slider("Max Number of Items", 1, 6, 6)
 max_cost = st.number_input("Max Total Cost", min_value=0, max_value=200000, value=200000, step=1000)
 
-# Blacklist input
-item_names = [item[0] for item in ITEMS]
-blacklisted_items = st.multiselect("Blacklist Items (Exclude these from optimization):", options=item_names)
+
 
 
 def filter_items(character, blacklist):
