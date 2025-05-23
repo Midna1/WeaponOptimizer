@@ -1,10 +1,7 @@
 import streamlit as st
 import itertools
 
-DEFAULT_BASE_ABILITY_POWER = 100
-DEFAULT_MAX_COST = 20000
-
-# Toggles
+# Settings
 IGNORE_MULTIPLIERS = False
 IGNORE_FIRE_RATE = False
 
@@ -55,7 +52,7 @@ ITEMS = [
     ("Celestial Clip", 10, 0, 10000, 0, "mercy"),
 ]
 
-# Streamlit UI
+# UI
 st.title("DPS Optimizer")
 
 base_damage = st.number_input("Base Damage", min_value=1.0, value=1.0, step=0.1)
@@ -65,16 +62,14 @@ characters = sorted(set(i[5] for i in ITEMS if i[5] != "all"))
 characters.insert(0, "Generic")
 character = st.selectbox("Select Character", characters)
 
-# Blacklist input
-item_names = [item[0] for item in ITEMS]
-blacklisted_items = st.multiselect("Blacklist Items (Exclude these from optimization):", options=item_names)
-
 ignore_fire_rate = st.checkbox("Ignore Fire Rate Bonus", value=IGNORE_FIRE_RATE)
 ignore_multiplier = st.checkbox("Ignore Bonus Multiplier", value=IGNORE_MULTIPLIERS)
 max_items = st.slider("Max Number of Items", 1, 6, 6)
 max_cost = st.number_input("Max Total Cost", min_value=0, max_value=200000, value=200000, step=1000)
 
-
+item_names = [item[0] for item in ITEMS]
+blacklisted_items = st.multiselect("Blacklist Items (Exclude these):", options=item_names)
+required_items = st.multiselect("Required Items (Must be included):", options=[i for i in item_names if i not in blacklisted_items])
 
 
 def filter_items(character, blacklist):
@@ -97,16 +92,25 @@ def calculate_dps(combo):
     return total_dps, total_damage_bonus, total_fire_rate_bonus, final_damage, final_fire_rate, total_cost, total_multiplier_bonus
 
 
-def find_best_combo(items, max_items, max_cost):
+def find_best_combo(items, max_items, max_cost, required_names):
+    required_items = [item for item in items if item[0] in required_names]
+    optional_items = [item for item in items if item[0] not in required_names]
+
+    min_required = len(required_items)
+    max_optional = max_items - min_required
+
     best = (None, 0, ())
 
-    for r in range(1, max_items + 1):
-        for combo in itertools.combinations(items, r):
-            dps, dmg_bonus, fire_bonus, dmg, fire_rate, cost, mult = calculate_dps(combo)
+    for r in range(0, max_optional + 1):
+        for combo in itertools.combinations(optional_items, r):
+            full_combo = list(combo) + required_items
+            if len(full_combo) > max_items:
+                continue
+            dps, dmg_bonus, fire_bonus, dmg, fire_rate, cost, mult = calculate_dps(full_combo)
             if cost > max_cost:
                 continue
             if dps > best[1]:
-                best = (combo, dps, (dmg_bonus, fire_bonus, dmg, fire_rate, cost, mult))
+                best = (full_combo, dps, (dmg_bonus, fire_bonus, dmg, fire_rate, cost, mult))
 
     return best
 
@@ -121,7 +125,7 @@ def get_color(cost):
 
 
 filtered = filter_items(character, blacklisted_items)
-best_combo, dps, stats = find_best_combo(filtered, max_items, max_cost)
+best_combo, dps, stats = find_best_combo(filtered, max_items, max_cost, required_items)
 
 if best_combo:
     st.subheader("Best DPS Combo:")
