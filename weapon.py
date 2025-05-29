@@ -50,6 +50,7 @@ ITEMS = [
     ("Midair mobilizer", 5, 10, 4000, 0, "mercy"),
     ("Caduceus Ex", 10, 0, 10000, 0, "mercy"),
     ("Celestial Clip", 10, 0, 10000, 0, "mercy"),
+    ("Chain Evoker", 0, 0, 10000, 0, "mercy"),
 ]
 
 # UI
