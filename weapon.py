@@ -17,7 +17,7 @@ ITEMS = [
     ("Icy Coolant", 10, 0, 5500, 0, "all"),
     ("Talon Modification Module", 15, 0, 6000, 0, "all"),
     ("Code Breaker", 15, 0, 9000, 0, "all"),
-    ("Salvaged Slugs", 0, 10, 9500, 0, "all"),
+    ("Salvaged Slugs", 0, 10, 9000, 0, "all"),
     ("Volskaya Ordnance", 0, 10, 9500, 0, "all"),
     ("Commander's Clip", 0, 10, 10000, 0, "all"),
     ("Weapon Jammer", 10, 10, 10000, 0, "all"),
@@ -28,6 +28,8 @@ ITEMS = [
     ("The Closer", 20, 0, 14500, 0, "all"),
     ("Eye of the Spider", 25, 0, 14500, 0, "all"),
     ("Custom Stock", 5, 0, 3750, 0, "all"),
+    ("Aerial Distresser", 0, 10, 10000, 0, "all"),
+    ("Emergecy Chip", 5, 0, 4500, 0, "all"),
 
     # Juno
     ("Gravitational Push", 7.5, 10, 10000, 0, "juno"),
@@ -44,7 +46,7 @@ ITEMS = [
     # Mei
     ("Focused Flurries", 0, 15, 10000, 0, "mei"),
     ("Snowboot", 0, 15, 10000, 0, "mei"),
-    ("Himalayan Hat", 0, 10, 10000, 0, "mei"),
+    ("Himalayan Hat", 0, 15, 10000, 0, "mei"),
 
     # Mercy
     ("Midair mobilizer", 5, 10, 4000, 0, "mercy"),
