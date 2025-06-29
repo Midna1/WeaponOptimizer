@@ -26,7 +26,7 @@ ITEMS = [
     ("Hardlight Accelerator", 10, 0, 11000, 0, "all"),
     ("El-sa'ka Suppressor", 10, 0, 11000, 0, "all"),
     ("The Closer", 20, 0, 14500, 0, "all"),
-    ("Eye of the Spider", 25, 0, 14000, 0, "all"),
+    ("Eye of the Spider", 25, 0, 14500, 0, "all"),
     ("Custom Stock", 5, 0, 3750, 0, "all"),
 
     # Juno
